@@ -9,6 +9,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Earthquake_reporter">
         <activity
+            android:name=".earthquake"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
