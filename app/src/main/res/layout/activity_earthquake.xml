@@ -14,7 +14,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="4.3"
-        android:textSize="36sp"
+        android:textSize="24sp"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:text="new york"
             android:textAllCaps="true"
-            android:textSize="18sp"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <TextView
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:text="10n.30e"
             android:textAllCaps="true"
-            android:textSize="18sp" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 
@@ -54,7 +54,7 @@
             android:layout_height="match_parent"
             android:gravity="end"
             android:text="10:30"
-            android:textSize="18sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/date"
@@ -62,7 +62,7 @@
             android:layout_height="match_parent"
             android:gravity="end"
             android:text="2022/02/10"
-            android:textSize="18sp" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 

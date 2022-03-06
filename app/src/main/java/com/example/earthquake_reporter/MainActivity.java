@@ -17,17 +17,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
-        ArrayList<quake> quakeArrayList = new ArrayList<>();
-        quakeArrayList.add(new quake("10:15","1n.3w","kaj","2/2/2","4.5"));
-        quakeArrayList.add(new quake("10:15","1n.3w","kaj","2/2/2","4.5"));
-        quakeArrayList.add(new quake("10:15","1n.3w","kaj","2/2/2","4.5"));
-        quakeArrayList.add(new quake("10:15","1n.3w","kaj","2/2/2","4.5"));
-
+        ArrayList<quake> earthquakes = QueryUtils.extractEarthquakes();
 
 
         ListView quakeList = findViewById(R.id.list);
-        listAdapter listAdapter = new listAdapter(MainActivity.this, quakeArrayList);
+        listAdapter listAdapter = new listAdapter(MainActivity.this, earthquakes);
         quakeList.setAdapter(listAdapter);
 
     }
