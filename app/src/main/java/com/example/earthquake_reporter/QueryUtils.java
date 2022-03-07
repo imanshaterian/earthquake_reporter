@@ -1,5 +1,7 @@
 package com.example.earthquake_reporter;
 
+import android.icu.text.DecimalFormat;
+import android.icu.text.SimpleDateFormat;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -7,6 +9,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Helper methods related to requesting and receiving earthquake data from USGS.
@@ -32,14 +36,15 @@ public final class QueryUtils {
      * This class is only meant to hold static variables and methods, which can be accessed
      * directly from the class name QueryUtils (and an object instance of QueryUtils is not needed).
      */
-    private QueryUtils() {
+    private QueryUtils() throws JSONException {
+
     }
+
 
     /**
      * Return a list of {@link earthquake} objects that has been built up from
      * parsing a JSON response.
      *
-     * @return
      */
     public static ArrayList<quake> extractEarthquakes() {
 
@@ -57,13 +62,42 @@ public final class QueryUtils {
             for (int i = 0; i < earthquakeArray.length(); i++) {
                 JSONObject currentEarthquake = earthquakeArray.getJSONObject(i);
                 JSONObject properties = currentEarthquake.getJSONObject("properties");
-                String Mag = properties.getString("mag");
-                String place = properties.getString("place");
-                String coord = properties.getString("tz");
-                String time = properties.getString("time");
-                String date = properties.getString("time");
+                Double Mag = properties.getDouble("mag");
+                DecimalFormat magnitudeFormat = new DecimalFormat("0.0");
+                String magoutput = magnitudeFormat.format(Mag);
 
-                earthquakes.add(new quake(time, coord, place, date, Mag));
+
+                /**
+                 * getting the place string and breaking it to two strings.
+                 */
+                String place = properties.getString("place");
+
+                /**
+                 * coord is the location of earthquake in relative to the city .
+                 * and location is the near city of the earthquake.
+                 */
+                String coord;
+                String location;
+                if (place.contains("of")){
+                    int placeHolder = place.indexOf("of");
+                    coord = place.substring(0,placeHolder);
+                    location = place.substring(placeHolder+2);
+                }
+                else{
+                    coord = "near of";
+                    location = place;
+                }
+
+                //calling a class to transform the unix time to standard time.
+                long timeInMilliseconds = properties.getLong("time");
+                Date dateObject = new Date(timeInMilliseconds);
+                //setting the dates in on text view and time to another one
+                SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm", Locale.CANADA);
+                String timeToDisplay = timeFormatter.format(dateObject);
+                SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy/MM/DD",Locale.CANADA);
+                String dateToDisplay = dateFormatter.format(dateObject);
+
+                earthquakes.add(new quake(timeToDisplay, coord, location, dateToDisplay, magoutput));
             }
 
         } catch (JSONException e) {
